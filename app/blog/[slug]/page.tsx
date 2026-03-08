@@ -95,7 +95,7 @@ If you're building a developer-focused tool, showing users how to customize your
 
 **The mechanics**
 
-LaunchKit's theme editor works like this: the user adjusts sliders and color pickers, those values are stored as a `ThemeStyles` object in the database, and the editor generates the `@layer base { :root { ... } }` CSS block that gets injected into the page.
+LaunchKit's theme editor works like this: the user adjusts sliders and color pickers, those values are stored as a ThemeStyles object in the database, and the editor generates the @layer base CSS block that gets injected into the page.
 
 Themes can be saved to the user's account, exported as CSS, or published to the community gallery. The AI integration can generate a complete theme from a text prompt or an image.
 

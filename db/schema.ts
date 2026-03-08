@@ -212,6 +212,18 @@ export const themeLike = pgTable(
   (table) => [primaryKey({ columns: [table.userId, table.themeId] })]
 );
 
+// User preferences — one row per user, upserted on change
+export const userPreferences = pgTable("user_preferences", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  notificationPrefs: json("notification_prefs")
+    .$type<Record<string, boolean>>()
+    .notNull()
+    .default({}),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
 // Audit log — append-only record of key user/system events
 export const auditLog = pgTable(
   "audit_log",
