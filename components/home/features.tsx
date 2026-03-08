@@ -1,42 +1,55 @@
-import { BrainCircuit, Code, Contrast, FileCode, Gem, Layers, Paintbrush } from "lucide-react";
+import { BrainCircuit, CreditCard, Gem, LayoutDashboard, Lock, Paintbrush, ShieldCheck, Webhook } from "lucide-react";
 import { motion } from "motion/react";
 
 const features = [
   {
-    title: "Color Control",
+    title: "Authentication",
     description:
-      "Customize background, text, and border colors with an intuitive color picker interface.",
+      "GitHub and Google OAuth wired in via Better Auth. Sessions, DB tables, and middleware handled.",
+    icon: <Lock className="size-6" />,
+  },
+  {
+    title: "Billing & Subscriptions",
+    description:
+      "Polar.sh integration with webhook handler, free-tier gating, and customer portal out of the box.",
+    icon: <CreditCard className="size-6" />,
+  },
+  {
+    title: "Visual Theme Editor",
+    description:
+      "Built-in real-time theme editor with 150+ presets, color control, typography, and export to Tailwind CSS.",
     icon: <Paintbrush className="size-6" />,
   },
   {
-    title: "Typography Settings",
-    description: "Fine-tune font size, weight, and text transform to create the perfect look.",
-    icon: <FileCode className="size-6" />,
-  },
-  {
-    title: "Tailwind v4 & v3",
+    title: "AI Integration",
     description:
-      "Seamlessly switch between Tailwind versions with support for OKLCH & HSL formats.",
-    icon: <Code className="size-6" />,
-  },
-  {
-    title: "Detailed Properties",
-    description:
-      "Fine-tune every aspect including radius, spacing, shadows, and other properties.",
-    icon: <Layers className="size-6" />,
-  },
-  {
-    title: "Contrast Checker",
-    description:
-      "Ensure designs meet accessibility standards with built-in contrast ratio checking.",
-    icon: <Contrast className="size-6" />,
-  },
-  {
-    title: "AI Theme Generation",
-    description:
-      "Create stunning, ready-to-use themes in seconds. Just provide an image or prompt.",
+      "Multi-provider AI (Gemini, OpenAI, Anthropic, Groq) with rate limiting and subscription gating ready to go.",
     icon: <BrainCircuit className="size-6" />,
     pro: true,
+  },
+  {
+    title: "Admin Dashboard",
+    description:
+      "User management, audit log, community moderation, and analytics. Email-based admin access control.",
+    icon: <LayoutDashboard className="size-6" />,
+  },
+  {
+    title: "OAuth 2.0 API",
+    description:
+      "Full RFC-compliant OAuth 2.0 server with PKCE so third-party apps can integrate with your product.",
+    icon: <Webhook className="size-6" />,
+  },
+  {
+    title: "Security Built-in",
+    description:
+      "Rate limiting (Upstash), audit logging, CSP headers, Sentry error monitoring, and Zod env validation.",
+    icon: <ShieldCheck className="size-6" />,
+  },
+  {
+    title: "Community Gallery",
+    description:
+      "Users publish, browse, and like themes. A ready-made user-generated content system you can repurpose.",
+    icon: <Gem className="size-6" />,
   },
 ];
 
@@ -70,11 +83,11 @@ export function Features() {
             className="flex flex-col justify-center space-y-4"
           >
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-left">
-              Powerful Tools <br className="hidden lg:block" />
-              <span className="text-muted-foreground">For Total Control</span>
+              Everything <br className="hidden lg:block" />
+              <span className="text-muted-foreground">Already Built</span>
             </h2>
             <p className="text-muted-foreground max-w-[400px] text-lg">
-              Everything you need to customize your shadcn/ui components and make them unique.
+              The hard SaaS infrastructure that takes weeks to build right — done, tested, and production-ready.
             </p>
           </motion.div>
 
@@ -83,7 +96,7 @@ export function Features() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid gap-6 sm:grid-cols-2"
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2"
           >
             {features.map((feature, i) => (
               <motion.div

@@ -3,19 +3,21 @@ import { motion } from "motion/react";
 const steps = [
   {
     step: "01",
-    title: "Select Preset",
-    description: "Start with a pre-made theme from our library.",
+    title: "Clone & Install",
+    description:
+      "Clone the repo, run pnpm install, copy .env.example to .env.local and fill in your service keys.",
   },
   {
     step: "02",
-    title: "Customize",
+    title: "Configure & Brand",
     description:
-      "Adjust colors, radius, and typography visually.",
+      "Edit config/site.ts with your product name and links. Push your DB schema. Done — everything else follows automatically.",
   },
   {
     step: "03",
-    title: "Export Code",
-    description: "Copy the Tailwind CSS config to your project.",
+    title: "Build & Ship",
+    description:
+      "Deploy to Vercel in one click. Auth, billing, email, and admin are live from day one. Add your own features on top.",
   },
 ];
 
@@ -35,11 +37,11 @@ export function HowItWorks() {
             className="max-w-2xl"
            >
                 <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                    Three Steps to <br/>
-                    <span className="text-primary">Perfection</span>
+                    From Zero to <br/>
+                    <span className="text-primary">Production</span>
                 </h2>
                 <p className="text-muted-foreground text-lg md:text-xl max-w-[600px]">
-                    We&apos;ve simplified the theming process so you can focus on building your app.
+                    We&apos;ve done the infrastructure work so you can focus on your actual product.
                 </p>
            </motion.div>
         </div>

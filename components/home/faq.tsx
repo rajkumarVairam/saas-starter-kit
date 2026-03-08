@@ -10,28 +10,32 @@ import { motion } from "motion/react";
 const faqs = [
   {
     question: `What is ${siteConfig.name}?`,
-    answer:
-      `${siteConfig.name} is a visual theme editor for shadcn/ui components. It allows you to customize your theme visually and export the code for your project.`,
+    answer: `${siteConfig.name} is a production-ready Next.js SaaS starter kit. It ships with authentication, billing, AI, admin dashboard, visual theme editor, OAuth 2.0 server, audit logging, and more — all wired together and ready to deploy.`,
   },
   {
-    question: "Is it free?",
+    question: "Is it really free to use?",
     answer:
-      "Yes, the core features are completely free. We offer a Pro plan for advanced AI features.",
+      "Yes. The starter kit is MIT licensed. You pay only for the third-party services you connect (Neon for DB, Polar for billing, Resend for email, etc.). Most have generous free tiers.",
   },
   {
-    question: "What's included in Pro?",
+    question: "What can I build with it?",
     answer:
-      "Pro includes AI theme generation from images and prompts, as well as cloud saving for multiple themes.",
+      "Any developer-facing SaaS product. The theme editor is a built-in example feature you can keep, repurpose, or replace entirely with your own product domain.",
   },
   {
-    question: "Supports Tailwind v4?",
+    question: "How is the theme editor useful in a SaaS context?",
     answer:
-      "Yes! We support both Tailwind CSS v3 and v4, along with OKLCH, HSL, and other color formats.",
+      "Any SaaS built on shadcn/ui needs a theme. Instead of hardcoding colors, you or your users can use the built-in editor to customize the look and export the result — no extra tooling required.",
   },
   {
-    question: "Can I use with existing projects?",
+    question: "What's included out of the box?",
     answer:
-      "Absolutely. Just copy the generated configuration into your existing project.",
+      "GitHub + Google OAuth, Polar subscription billing with webhooks, transactional email via Resend, AI with multi-provider support, admin panel, OAuth 2.0 API server, rate limiting, audit logging, Sentry error tracking, PostHog analytics, and a full visual theme editor.",
+  },
+  {
+    question: "Can I deploy this on Vercel?",
+    answer:
+      "Yes — it's built for Vercel. Push to GitHub, import the project, add your environment variables, and you're live. The SETUP.md walks through every step.",
   },
 ];
 

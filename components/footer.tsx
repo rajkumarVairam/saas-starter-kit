@@ -16,8 +16,8 @@ export function Footer() {
               <span>{siteConfig.name}</span>
             </Link>
             <p className="text-muted-foreground text-sm">
-              A powerful visual theme editor for shadcn/ui components with Tailwind CSS support.
-              Make your components stand out.
+              A production-ready Next.js SaaS starter with auth, billing, AI, admin, and a visual
+              theme editor. Ship faster without cutting corners.
             </p>
             <div className="flex gap-4">
               <a
@@ -46,59 +46,19 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-sm font-bold">Product</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/#features"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/community"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Examples
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#roadmap"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Roadmap
-                </Link>
-              </li>
+              <li><Link href="/#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</Link></li>
+              <li><Link href="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</Link></li>
+              <li><Link href="/community" className="text-muted-foreground hover:text-foreground transition-colors">Community</Link></li>
+              <li><Link href="/changelog" className="text-muted-foreground hover:text-foreground transition-colors">Changelog</Link></li>
             </ul>
           </div>
           <div className="space-y-4">
             <h4 className="text-sm font-bold">Resources</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href={siteConfig.links.github}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.links.discord}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Discord
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.links.contact}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Contact
-                </a>
-              </li>
+              <li><Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link></li>
+              <li><Link href="/docs" className="text-muted-foreground hover:text-foreground transition-colors">API Docs</Link></li>
+              <li><a href={siteConfig.links.github} className="text-muted-foreground hover:text-foreground transition-colors">GitHub</a></li>
+              <li><a href={siteConfig.links.contact} className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
             </ul>
           </div>
         </div>
