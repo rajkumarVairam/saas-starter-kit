@@ -23,7 +23,7 @@ Standard OAuth 2.0 Authorization Code flow. PKCE is supported but optional.
 ### 1. Redirect the user to authorize
 
 ```
-GET https://sass-kit-v3.com/api/oauth/authorize
+GET https://launchkit.dev/api/oauth/authorize
   ?client_id=CLIENT_ID
   &redirect_uri=https://myapp.com/callback
   &response_type=code
@@ -40,7 +40,7 @@ https://myapp.com/callback?code=AUTH_CODE&state=RANDOM_STRING
 ### 2. Exchange the code for tokens
 
 ```bash
-curl -X POST https://sass-kit-v3.com/api/oauth/token \
+curl -X POST https://launchkit.dev/api/oauth/token \
   -d grant_type=authorization_code \
   -d client_id=CLIENT_ID \
   -d client_secret=CLIENT_SECRET \
@@ -65,7 +65,7 @@ Response:
 Pass the access token as a Bearer token:
 
 ```bash
-curl https://sass-kit-v3.com/api/v1/themes \
+curl https://launchkit.dev/api/v1/themes \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
 
@@ -74,7 +74,7 @@ curl https://sass-kit-v3.com/api/v1/themes \
 Access tokens expire after 1 hour. Use the refresh token to get a new pair:
 
 ```bash
-curl -X POST https://sass-kit-v3.com/api/oauth/token \
+curl -X POST https://launchkit.dev/api/oauth/token \
   -d grant_type=refresh_token \
   -d client_id=CLIENT_ID \
   -d client_secret=CLIENT_SECRET \
@@ -84,7 +84,7 @@ curl -X POST https://sass-kit-v3.com/api/oauth/token \
 ### 5. Revoke tokens
 
 ```bash
-curl -X POST https://sass-kit-v3.com/api/oauth/revoke \
+curl -X POST https://launchkit.dev/api/oauth/revoke \
   -d token=ACCESS_OR_REFRESH_TOKEN
 ```
 
@@ -104,9 +104,9 @@ export const auth = betterAuth({
           providerId: "saaskit",
           clientId: process.env.SAASKIT_CLIENT_ID,
           clientSecret: process.env.SAASKIT_CLIENT_SECRET,
-          authorizationUrl: "https://sass-kit-v3.com/api/oauth/authorize",
-          tokenUrl: "https://sass-kit-v3.com/api/oauth/token",
-          userInfoUrl: "https://sass-kit-v3.com/api/oauth/userinfo",
+          authorizationUrl: "https://launchkit.dev/api/oauth/authorize",
+          tokenUrl: "https://launchkit.dev/api/oauth/token",
+          userInfoUrl: "https://launchkit.dev/api/oauth/userinfo",
           scopes: ["themes:read", "profile:read"],
         },
       ],

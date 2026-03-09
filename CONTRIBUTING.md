@@ -46,8 +46,8 @@ SaaS Kit v3 is a production-ready Next.js SaaS starter that includes a visual th
 1. Clone your fork and install dependencies:
 
     ```bash
-    git clone https://github.com/YOUR_ORG/saaskit-v3.git
-    cd saaskit-v3
+    git clone https://github.com/YOUR_ORG/launchkit.git
+    cd launchkit
     pnpm install
     ```
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "saaskit-theme-registry",
-  "homepage": "https://sass-kit-v3.com",
+  "name": "launchkit-theme-registry",
+  "homepage": "https://launchkit.dev",
   "items": [
     {
       "name": "modern-minimal",

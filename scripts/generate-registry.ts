@@ -14,7 +14,7 @@ function generateRegistry() {
   const registry: ThemeRegistry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "saaskit-theme-registry",
-    homepage: process.env.BASE_URL ?? "https://sass-kit-v3.com",
+    homepage: process.env.BASE_URL ?? "https://launchkit.dev",
     items: [],
   };
 

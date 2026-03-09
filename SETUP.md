@@ -190,7 +190,7 @@ const ALLOWED_ORIGINS = ['https://your-domain.com', 'http://localhost:3000'];
 
 ### 4. `package.json`
 
-Update the `name` field (currently `saaskit-v3`).
+Update the `name` field (currently `launchkit`).
 
 That's it. No other files need to be touched for a full rebrand.
 
