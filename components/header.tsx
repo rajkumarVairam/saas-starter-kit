@@ -1,57 +1,28 @@
 "use client";
 
-import DiscordIcon from "@/assets/discord.svg";
-import FigmaIcon from "@/assets/figma.svg";
-import GitHubIcon from "@/assets/github.svg";
 import { siteConfig } from "@/config/site";
 import Logo from "@/assets/logo.svg";
-import TwitterIcon from "@/assets/twitter.svg";
 import { FigmaExportDialog } from "@/components/figma-export-dialog";
-import { SocialLink } from "@/components/social-link";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { UserProfileDropdown } from "@/components/user-profile-dropdown";
-import { useGithubStars } from "@/hooks/use-github-stars";
-import { formatCompactNumber } from "@/utils/format";
 import Link from "next/link";
 import { useState } from "react";
 import { GetProCTA } from "./get-pro-cta";
+import FigmaIcon from "@/assets/figma.svg";
 
 export function Header() {
-  const { stargazersCount } = useGithubStars("sass-kit-v3", "saaskit-v3");
   const [figmaDialogOpen, setFigmaDialogOpen] = useState(false);
 
   return (
     <header className="border-b">
       <div className="flex items-center justify-between gap-2 p-4">
-        <div className="flex items-center gap-1">
-          <Link href="/" className="flex items-center gap-2">
-            <Logo className="size-6" title={siteConfig.name} />
-            <span className="hidden font-bold md:block">{siteConfig.name}</span>
-          </Link>
-        </div>
-        <div className="flex items-center gap-3.5">
-          <GetProCTA className="h-8" />
+        <Link href="/settings/themes" className="flex items-center gap-2">
+          <Logo className="size-6" title={siteConfig.name} />
+          <span className="hidden font-bold md:block">{siteConfig.name}</span>
+        </Link>
 
-          <SocialLink
-            href={siteConfig.links.github}
-            className="flex items-center gap-2 text-sm font-bold"
-          >
-            <GitHubIcon className="size-4" />
-            {stargazersCount > 0 && formatCompactNumber(stargazersCount)}
-          </SocialLink>
-          <Separator orientation="vertical" className="h-8" />
-          <div className="flex items-center gap-3.5">
-            <div className="hidden items-center gap-3.5 md:flex">
-              <SocialLink href={siteConfig.links.discord}>
-                <DiscordIcon className="size-5" />
-              </SocialLink>
-            </div>
-            <SocialLink href={siteConfig.links.twitter}>
-              <TwitterIcon className="size-4" />
-            </SocialLink>
-          </div>
-          <Separator orientation="vertical" className="h-8" />
+        <div className="flex items-center gap-3">
+          <GetProCTA className="h-8" />
           <Button
             onClick={() => setFigmaDialogOpen(true)}
             variant="outline"

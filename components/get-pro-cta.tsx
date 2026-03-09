@@ -26,7 +26,7 @@ export function GetProCTA({ className, ...props }: GetProCTAProps) {
       asChild
       {...props}
     >
-      <Link href="/pricing">
+      <Link href="/settings/billing">
         <Gem />
         Get Pro
       </Link>

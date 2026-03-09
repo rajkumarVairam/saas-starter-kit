@@ -1,50 +1,90 @@
-import { getThemes } from "@/actions/themes";
-import { ThemesList } from "@/app/settings/components/themes-list";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
-import { Palette, Plus } from "lucide-react";
-import { headers } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useEditorStore } from "@/store/editor-store";
+import { useThemePresetStore } from "@/store/theme-preset-store";
+import { useTheme } from "@/components/theme-provider";
+import { Check } from "lucide-react";
+import { useMemo } from "react";
 import { SettingsHeader } from "../components/settings-header";
 
-export default async function ThemesPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+function PresetSwatch({ color }: { color: string }) {
+  return (
+    <div
+      className="h-4 w-4 rounded-sm border border-black/10"
+      style={{ backgroundColor: color }}
+    />
+  );
+}
 
-  if (!session) redirect("/editor/theme");
+export default function ThemesPage() {
+  const { theme: currentMode } = useTheme();
+  const applyThemePreset = useEditorStore((s) => s.applyThemePreset);
+  const themeState = useEditorStore((s) => s.themeState);
+  const presets = useThemePresetStore((s) => s.getAllPresets());
 
-  const themes = await getThemes();
-  const sortedThemes = themes.sort((a, b) => {
-    return (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0);
-  });
+  const allPresets = useMemo(() => {
+    return [
+      { key: "default", label: "Default" },
+      ...Object.entries(presets)
+        .filter(([, p]) => p.source !== "SAVED")
+        .sort(([, a], [, b]) => (a.label || "").localeCompare(b.label || ""))
+        .map(([key, p]) => ({ key, label: p.label || key })),
+    ];
+  }, [presets]);
+
+  const currentPreset = themeState.preset ?? "default";
 
   return (
     <div>
-      <SettingsHeader title="Your Themes" description="View and manage your themes" />
-      {sortedThemes.length === 0 ? (
-        <Card className="flex flex-col items-center justify-center p-4 py-12 text-center">
-          <div className="bg-primary/10 mb-6 rounded-full p-4">
-            <Palette className="text-primary size-12" />
-          </div>
-          <h2 className="mb-2 text-xl font-semibold md:text-2xl">No themes created yet</h2>
-          <p className="text-muted-foreground mb-6 max-w-md text-pretty">
-            Create your first custom theme to personalize your projects with unique color palettes.
-          </p>
-          <div className="w-full max-w-md">
-            <Link href="/editor/theme">
-              <Button size="lg" className="w-full gap-2">
-                <Plus className="size-4" />
-                Create Your First Theme
-              </Button>
-            </Link>
-          </div>
-        </Card>
-      ) : (
-        <ThemesList themes={sortedThemes} />
-      )}
+      <SettingsHeader
+        title="Appearance"
+        description="Choose a theme to apply across the app."
+      />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {allPresets.map(({ key, label }) => {
+          const styles =
+            key === "default"
+              ? themeState.styles[currentMode]
+              : (presets[key]?.styles?.[currentMode] ?? presets[key]?.styles?.light ?? {});
+
+          const primary = (styles as Record<string, string>).primary ?? "#3b82f6";
+          const secondary = (styles as Record<string, string>).secondary ?? "#f3f4f6";
+          const accent = (styles as Record<string, string>).accent ?? "#e0f2fe";
+          const border = (styles as Record<string, string>).border ?? "#e5e7eb";
+
+          const isActive = currentPreset === key;
+
+          return (
+            <button
+              key={key}
+              onClick={() => applyThemePreset(key)}
+              className={cn(
+                "group relative flex flex-col gap-3 rounded-lg border p-4 text-left transition-all hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                isActive
+                  ? "border-primary bg-primary/5"
+                  : "border-border bg-card hover:bg-muted/50"
+              )}
+            >
+              {/* Color swatches */}
+              <div className="flex gap-1.5">
+                <PresetSwatch color={primary} />
+                <PresetSwatch color={accent} />
+                <PresetSwatch color={secondary} />
+                <PresetSwatch color={border} />
+              </div>
+
+              {/* Label row */}
+              <div className="flex items-center justify-between gap-2">
+                <span className="truncate text-sm font-medium capitalize">{label}</span>
+                {isActive && (
+                  <Check className="size-3.5 shrink-0 text-primary" />
+                )}
+              </div>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

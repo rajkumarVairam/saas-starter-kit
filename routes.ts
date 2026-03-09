@@ -1,3 +1,4 @@
 export const API_AUTH_PREFIX: string = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT: string = "/editor/theme";
+// Where unauthenticated users are sent when they hit a protected route
+export const DEFAULT_LOGIN_REDIRECT: string = "/";

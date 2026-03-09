@@ -3,7 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import { useSubscription } from "@/hooks/use-subscription";
 import { cn } from "@/lib/utils";
-import { Bell, ChartNoAxesCombined, CreditCard, ExternalLink, LucideIcon, Monitor, Palette, UserCog } from "lucide-react";
+import { Bell, CreditCard, ExternalLink, LucideIcon, Monitor, Palette, UserCog } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -22,8 +22,7 @@ type NavItem =
     };
 
 const BASE_NAV_ITEMS: NavItem[] = [
-  { type: "link", href: "/settings/themes", label: "Themes", icon: Palette },
-  { type: "link", href: "/settings/usage", label: "AI Usage", icon: ChartNoAxesCombined },
+  { type: "link", href: "/settings/themes", label: "Appearance", icon: Palette },
   { type: "separator", id: "billing-separator" },
   { type: "link", href: "/settings/billing", label: "Billing", icon: CreditCard },
   { type: "link", href: "/settings/notifications", label: "Notifications", icon: Bell },

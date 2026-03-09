@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { CreditCard, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
+import { UpgradeButton } from "./upgrade-button";
 
 export default async function BillingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -50,7 +51,7 @@ export default async function BillingPage() {
                 </p>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Limited AI usage · up to 3 saved themes
+                  Access to all built-in theme presets
                 </p>
               )}
             </div>
@@ -108,9 +109,7 @@ export default async function BillingPage() {
                 </Link>
               </Button>
             ) : (
-              <Button size="sm" asChild>
-                <Link href="/pricing">Upgrade to {siteConfig.proTier}</Link>
-              </Button>
+              <UpgradeButton label={`Upgrade to ${siteConfig.proTier}`} />
             )}
           </div>
         </CardContent>
@@ -126,7 +125,7 @@ export default async function BillingPage() {
             <div>
               <p className="font-semibold mb-3">Free</p>
               <ul className="space-y-2 text-muted-foreground">
-                {["Up to 3 saved themes", "All theme presets", "Export to Tailwind CSS", "Community gallery access"].map((f) => (
+                {["All built-in theme presets", "Light & dark mode", "Export to CSS"].map((f) => (
                   <li key={f} className="flex items-center gap-2">
                     <CheckCircle2 className="size-3.5 text-green-500 shrink-0" />
                     {f}
@@ -137,7 +136,7 @@ export default async function BillingPage() {
             <div>
               <p className="font-semibold mb-3">{siteConfig.proTier}</p>
               <ul className="space-y-2 text-muted-foreground">
-                {["Unlimited saved themes", "AI theme generation", "Image-to-theme AI", "Priority support"].map((f) => (
+                {["Everything in Free", "Priority support", "Early access to new features"].map((f) => (
                   <li key={f} className="flex items-center gap-2">
                     <CheckCircle2 className="size-3.5 text-primary shrink-0" />
                     {f}

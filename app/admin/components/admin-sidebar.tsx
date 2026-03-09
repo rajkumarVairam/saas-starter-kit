@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { BarChart3, Globe, Shield, Users } from "lucide-react";
+import { BarChart3, Shield, Users } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: BarChart3, exact: true },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin/community", label: "Community Themes", icon: Globe },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/audit", label: "Audit Log", icon: Shield },
 ];

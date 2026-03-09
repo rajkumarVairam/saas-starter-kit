@@ -1,4 +1,3 @@
-import { NoiseEffect } from "@/components/effects/noise-effect";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +16,6 @@ export default function SuccessPage() {
     <div className="from-background to-muted/20 flex min-h-screen items-center justify-center bg-gradient-to-br p-4">
       <Card className="w-full max-w-lg overflow-hidden border-0 shadow-2xl">
         <CardHeader className="relative flex flex-col items-center space-y-4">
-          {/* Success Icon */}
           <div className="relative">
             <div className="absolute inset-0 animate-pulse rounded-full bg-green-500/20 blur-xl" />
             <div className="relative rounded-full bg-green-500/10 p-4">
@@ -32,16 +30,19 @@ export default function SuccessPage() {
           </CardTitle>
           <CardDescription>
             <p className="text-muted-foreground text-center text-base text-pretty md:text-lg">
-              Welcome to <span className="text-foreground font-semibold">{siteConfig.name} {siteConfig.proTier}</span>! Your
-              subscription is now active and you have access to all premium features.
+              Welcome to{" "}
+              <span className="text-foreground font-semibold">
+                {siteConfig.name} {siteConfig.proTier}
+              </span>
+              ! Your subscription is now active.
             </p>
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4 text-center">
           <Button asChild size="lg" className="group w-full">
-            <Link href="/editor/theme" className="flex items-center justify-center gap-2">
-              Continue Editing
+            <Link href="/settings/themes" className="flex items-center justify-center gap-2">
+              Go to Appearance
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
@@ -54,8 +55,7 @@ export default function SuccessPage() {
           </Button>
         </CardContent>
 
-        <CardFooter className="relative border-t pt-6">
-          <NoiseEffect />
+        <CardFooter className="border-t pt-6">
           <p className="text-muted-foreground w-full text-center text-sm">
             Need help?{" "}
             <Link href={`mailto:${siteConfig.email}`} className="text-primary hover:underline">

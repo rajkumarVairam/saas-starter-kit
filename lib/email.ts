@@ -18,8 +18,8 @@ export async function sendWelcomeEmail(to: string, name: string, idempotencyKey?
         <h1 style="color: #111;">Welcome, ${name}!</h1>
         <p>Thanks for signing up for ${siteConfig.name}. You're all set to start building beautiful themes.</p>
         <p>
-          <a href="${APP_URL}/editor/theme" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
-            Open Theme Editor
+          <a href="${APP_URL}/settings/themes" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+            Get Started
           </a>
         </p>
         <p style="color: #666; font-size: 14px;">
@@ -43,8 +43,8 @@ export async function sendSubscriptionConfirmationEmail(to: string, name: string
         <h1 style="color: #111;">Welcome to Pro, ${name}!</h1>
         <p>Your ${siteConfig.name} ${siteConfig.proTier} subscription is now active. You have unlimited AI theme generation and all Pro features unlocked.</p>
         <p>
-          <a href="${APP_URL}/ai" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
-            Start Generating Themes
+          <a href="${APP_URL}/settings/themes" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+            Go to Appearance
           </a>
         </p>
         <p style="color: #666; font-size: 14px;">
@@ -73,7 +73,7 @@ export async function sendSubscriptionCancelledEmail(to: string, name: string, e
         <p>Hi ${name}, your ${siteConfig.name} ${siteConfig.proTier} subscription has been cancelled.</p>
         <p>You'll retain Pro access until <strong>${endDate}</strong>. After that, your account will revert to the free tier.</p>
         <p>
-          <a href="${APP_URL}/pricing" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+          <a href="${APP_URL}/settings/billing" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
             Resubscribe
           </a>
         </p>

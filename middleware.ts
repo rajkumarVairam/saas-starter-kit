@@ -7,8 +7,6 @@ import { API_AUTH_PREFIX, DEFAULT_LOGIN_REDIRECT } from "./routes";
 // API routes that require authentication (session-based, not Bearer token)
 // Bearer-token routes (/api/v1/*, /api/oauth/*) handle their own auth
 const PROTECTED_API_ROUTES = [
-  "/api/generate-theme",
-  "/api/enhance-prompt",
   "/api/subscription",
 ];
 
@@ -25,7 +23,6 @@ export async function middleware(request: NextRequest) {
   }
 
   // Safety net for protected API routes — return 401 if no session
-  // (individual routes also check, but this catches any future routes that forget)
   if (PROTECTED_API_ROUTES.some((route) => pathname.startsWith(route))) {
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -39,7 +36,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (session) {
-    // Redirect logged-in users from /dashboard or /settings (root) to /settings/themes
+    // Redirect logged-in users from root dashboard to themes settings
     if (pathname === "/dashboard" || pathname === "/settings") {
       return NextResponse.redirect(new URL("/settings/themes", request.url));
     }
@@ -52,7 +49,7 @@ export async function middleware(request: NextRequest) {
         .filter(Boolean);
       const userEmail = session.user.email?.toLowerCase() ?? "";
       if (adminEmails.length === 0 || !adminEmails.includes(userEmail)) {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/settings/themes", request.url));
       }
     }
   }
@@ -62,13 +59,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/editor/theme/:themeId",
     "/dashboard",
     "/settings/:path*",
     "/admin/:path*",
     "/success",
-    "/api/generate-theme",
-    "/api/enhance-prompt",
     "/api/subscription",
   ],
 };

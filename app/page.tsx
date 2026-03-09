@@ -1,52 +1,23 @@
-"use client";
+import { auth } from "@/lib/auth";
+import { siteConfig } from "@/config/site";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { SignInButton } from "@/app/(auth)/components/sign-in-button";
 
-import { Footer } from "@/components/footer";
-import { AIGenerationCTA } from "@/components/home/ai-generation-cta";
-import { CTA } from "@/components/home/cta";
-import { FAQ } from "@/components/home/faq";
-import { Features } from "@/components/home/features";
-import { Header } from "@/components/home/header";
-import { Hero } from "@/components/home/hero";
-import { HowItWorks } from "@/components/home/how-it-works";
-import { Testimonials } from "@/components/home/testimonials";
-// import { ThemePresetSelector } from "@/components/home/theme-preset-selector";
-import { useEffect, useState } from "react";
+export default async function Home() {
+  const session = await auth.api.getSession({ headers: await headers() });
 
-export default function Home() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  if (session) {
+    redirect("/settings/themes");
+  }
 
   return (
-    <div className="bg-background text-foreground flex min-h-[100dvh] flex-col items-center justify-items-center">
-      <Header
-        isScrolled={isScrolled}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
-      <main className="w-full flex-1">
-        <Hero />
-        {/* <ThemePresetSelector /> */}
-        <Testimonials />
-        <Features />
-        <AIGenerationCTA />
-        <HowItWorks />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
+    <div className="bg-background flex min-h-screen flex-col items-center justify-center px-4">
+      <div className="flex flex-col items-center gap-6 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">{siteConfig.name}</h1>
+        <p className="text-muted-foreground max-w-sm text-base">{siteConfig.description}</p>
+        <SignInButton />
+      </div>
     </div>
   );
 }

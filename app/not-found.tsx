@@ -1,19 +1,14 @@
 "use client";
 
-import { ThemePresetButtons } from "@/components/home/theme-preset-buttons";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { useEditorStore } from "@/store/editor-store";
-import { defaultPresets } from "@/utils/theme-presets";
 import { Sun, Moon } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
   const { theme, toggleTheme } = useTheme();
-  const { themeState, applyThemePreset } = useEditorStore();
-  const mode = themeState.currentMode;
-  const presetNames = Object.keys(defaultPresets);
+
   return (
     <div className="bg-background flex min-h-screen flex-col items-center justify-center px-4">
       <div className="fixed top-4 right-4 z-50">
@@ -37,26 +32,17 @@ export default function NotFound() {
       <span className="text-muted-foreground mb-6 text-[6rem] leading-none font-extrabold select-none">
         404
       </span>
-      <h1 className="text-foreground mb-2 text-3xl font-bold">Oops, Lost in Space?</h1>
+      <h1 className="text-foreground mb-2 text-3xl font-bold">Page not found</h1>
       <p className="text-muted-foreground mb-8 max-w-md text-center text-lg">
-        Go home or try switching the theme!
+        The page you were looking for doesn&apos;t exist.
       </p>
 
       <Link
-        href="/"
-        className="bg-primary text-primary-foreground hover:bg-primary/80 mb-10 rounded-md px-6 py-2 font-semibold shadow transition-colors"
+        href="/settings/themes"
+        className="bg-primary text-primary-foreground hover:bg-primary/80 rounded-md px-6 py-2 font-semibold shadow transition-colors"
       >
-        Back to Home
+        Back to App
       </Link>
-
-      <div className="flex w-full justify-center">
-        <ThemePresetButtons
-          presetNames={presetNames}
-          mode={mode}
-          themeState={themeState}
-          applyThemePreset={applyThemePreset}
-        />
-      </div>
     </div>
   );
 }
