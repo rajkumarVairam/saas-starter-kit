@@ -1,15 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
   <rect width="256" height="256" fill="none" />
-
-  <!-- Line 1 split to avoid circle at (188, 148) -->
-  <line x1="208" y1="128" x2="207.8" y2="128.2" stroke="currentColor" stroke-linecap="round" stroke-width="24" />
-  <line x1="168.2" y1="167.8" x2="128" y2="208" stroke="currentColor" stroke-linecap="round" stroke-width="24" />
-
-  <!-- Line 2 split to avoid circle at (96, 136) -->
-  <line x1="192" y1="40" x2="115.8" y2="116.2" stroke="currentColor" stroke-linecap="round" stroke-width="24" />
-  <line x1="76.2" y1="155.8" x2="40" y2="192" stroke="currentColor" stroke-linecap="round" stroke-width="24" />
-
-  <!-- Hollow circles with stroke width = 24 and radius = 24 -->
-  <circle cx="188" cy="148" r="24" fill="none" stroke="currentColor" stroke-width="24" />
-  <circle cx="96" cy="136" r="24" fill="none" stroke="currentColor" stroke-width="24" />
+  <!-- Rocket body -->
+  <path
+    d="M128 32 C128 32 176 72 176 136 L128 168 L80 136 C80 72 128 32 128 32 Z"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="16"
+    stroke-linejoin="round"
+  />
+  <!-- Rocket window -->
+  <circle cx="128" cy="112" r="20" fill="none" stroke="currentColor" stroke-width="14" />
+  <!-- Left fin -->
+  <path
+    d="M80 136 L52 168 L80 160"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <!-- Right fin -->
+  <path
+    d="M176 136 L204 168 L176 160"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <!-- Exhaust flame -->
+  <path
+    d="M110 168 Q128 200 146 168"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linecap="round"
+  />
 </svg>

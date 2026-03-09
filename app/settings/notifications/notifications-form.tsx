@@ -5,9 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Bell } from "lucide-react";
-import { useOptimistic, useTransition } from "react";
+import { useState } from "react";
 
 interface NotificationPref {
   id: string;
@@ -56,24 +56,21 @@ function resolvePrefs(saved: Record<string, boolean>): Record<string, boolean> {
 }
 
 export function NotificationsForm({ savedPrefs }: { savedPrefs: Record<string, boolean> }) {
-  const initial = resolvePrefs(savedPrefs);
-  const [optimistic, setOptimistic] = useOptimistic(initial);
-  const [, startTransition] = useTransition();
+  const [prefs, setPrefs] = useState(() => resolvePrefs(savedPrefs));
+  const [saving, setSaving] = useState<string | null>(null);
 
-  const toggle = (id: string, value: boolean) => {
-    startTransition(async () => {
-      setOptimistic((prev) => ({ ...prev, [id]: value }));
-      try {
-        await setNotificationPref(id, value);
-        toast({
-          title: value ? "Enabled" : "Disabled",
-          description: PREFS.find((p) => p.id === id)?.label,
-        });
-      } catch {
-        // Optimistic update will revert on re-render from server
-        toast({ title: "Failed to save preference", variant: "destructive" });
-      }
-    });
+  const toggle = async (id: string, value: boolean) => {
+    setPrefs((prev) => ({ ...prev, [id]: value }));
+    setSaving(id);
+    try {
+      await setNotificationPref(id, value);
+      toast.success(`${value ? "Enabled" : "Disabled"}: ${PREFS.find((p) => p.id === id)?.label}`);
+    } catch {
+      setPrefs((prev) => ({ ...prev, [id]: !value }));
+      toast.error("Failed to save preference");
+    } finally {
+      setSaving(null);
+    }
   };
 
   const transactional = PREFS.filter((p) =>
@@ -94,15 +91,18 @@ export function NotificationsForm({ savedPrefs }: { savedPrefs: Record<string, b
             <Bell className="size-4" />
             Transactional Emails
           </CardTitle>
-          <CardDescription>
-            Essential emails about your account and billing.
-          </CardDescription>
+          <CardDescription>Essential emails about your account and billing.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {transactional.map((pref, i) => (
             <div key={pref.id}>
               {i > 0 && <Separator className="mb-4" />}
-              <PrefRow pref={pref} value={optimistic[pref.id]} onToggle={toggle} />
+              <PrefRow
+                pref={pref}
+                value={prefs[pref.id]}
+                disabled={saving === pref.id}
+                onToggle={toggle}
+              />
             </div>
           ))}
         </CardContent>
@@ -117,7 +117,12 @@ export function NotificationsForm({ savedPrefs }: { savedPrefs: Record<string, b
           {marketing.map((pref, i) => (
             <div key={pref.id}>
               {i > 0 && <Separator className="mb-4" />}
-              <PrefRow pref={pref} value={optimistic[pref.id]} onToggle={toggle} />
+              <PrefRow
+                pref={pref}
+                value={prefs[pref.id]}
+                disabled={saving === pref.id}
+                onToggle={toggle}
+              />
             </div>
           ))}
         </CardContent>
@@ -129,10 +134,12 @@ export function NotificationsForm({ savedPrefs }: { savedPrefs: Record<string, b
 function PrefRow({
   pref,
   value,
+  disabled,
   onToggle,
 }: {
   pref: NotificationPref;
   value: boolean;
+  disabled: boolean;
   onToggle: (id: string, value: boolean) => void;
 }) {
   return (
@@ -146,6 +153,7 @@ function PrefRow({
       <Switch
         id={pref.id}
         checked={value}
+        disabled={disabled}
         onCheckedChange={(v) => onToggle(pref.id, v)}
       />
     </div>

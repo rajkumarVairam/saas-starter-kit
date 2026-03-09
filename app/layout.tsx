@@ -15,13 +15,13 @@ import { Suspense } from "react";
 import "./globals.css";
 import { CookieConsent } from "@/components/cookie-consent";
 
-const title = `${siteConfig.tagline} — ${siteConfig.name} | Theme Editor & Generator`;
+const title = `${siteConfig.name} — Ship your SaaS without the boring parts`;
 
 export const metadata: Metadata = {
   title,
   description: siteConfig.description,
   keywords:
-    "theme editor, theme generator, shadcn, ui, components, react, tailwind, button, editor, visual editor, component editor, web development, frontend, design system, UI components, React components, Tailwind CSS, shadcn/ui themes",
+    "saas starter kit, next.js saas, better auth, polar billing, drizzle orm, neon postgres, resend email, shadcn ui, tailwind css, production ready, boilerplate",
   authors: [{ name: siteConfig.creator }],
   openGraph: {
     title,

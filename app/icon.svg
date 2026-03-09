@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" fill="none" />
+  <!-- Rocket body -->
+  <path
+    d="M128 32 C128 32 176 72 176 136 L128 168 L80 136 C80 72 128 32 128 32 Z"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="16"
+    stroke-linejoin="round"
+  />
+  <!-- Rocket window -->
+  <circle cx="128" cy="112" r="20" fill="none" stroke="currentColor" stroke-width="14" />
+  <!-- Left fin -->
+  <path
+    d="M80 136 L52 168 L80 160"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <!-- Right fin -->
+  <path
+    d="M176 136 L204 168 L176 160"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <!-- Exhaust flame -->
+  <path
+    d="M110 168 Q128 200 146 168"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="14"
+    stroke-linecap="round"
+  />
+</svg>
