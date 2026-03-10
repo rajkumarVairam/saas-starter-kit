@@ -5,6 +5,55 @@
 
 ---
 
+## Test Maintenance Rules — MANDATORY
+
+**Every time you add or change a route, API, or server action, you MUST:**
+
+1. **Add or update an e2e spec** in `e2e/` — map it to a TC-ID in `docs/test-plan.md`
+   - New API route → add request test to the relevant `e2e/*.spec.ts`
+   - New protected page → add it to `e2e/security.spec.ts` protected pages list
+   - New authenticated page → add it to `e2e/dashboard.spec.ts` or `e2e/settings.spec.ts`
+
+2. **Add or update a test case** in `docs/test-plan.md`
+   - New feature → add TC-XXXX entry under the relevant section
+   - Changed behavior → update the existing TC entry's Expected result
+   - Security-relevant change → add or update a SEC-* entry
+
+3. **Run the coverage audit** before finishing:
+
+   ```bash
+   pnpm test:coverage-audit:warn
+   ```
+
+   Fix any untested routes (or add them to `KNOWN_EXCEPTIONS` with a reason).
+
+4. **Run lint + build** to confirm no regressions:
+
+   ```bash
+   pnpm lint && pnpm build
+   ```
+
+### Test file ownership
+
+| What changed | Which spec to update |
+| --- | --- |
+| New `/api/*` route | `e2e/security.spec.ts` + relevant domain spec |
+| New protected page | `e2e/security.spec.ts` (SEC-001 list) + `e2e/dashboard.spec.ts` |
+| Auth / session change | `e2e/auth.spec.ts` |
+| Admin action | `e2e/admin.spec.ts` |
+| Billing / webhook | `e2e/billing.spec.ts` |
+| GDPR / export | `e2e/gdpr.spec.ts` |
+| Settings page | `e2e/settings.spec.ts` |
+
+### Security checklist for new endpoints
+
+- [ ] Returns 401 when unauthenticated → tested in `e2e/security.spec.ts`
+- [ ] Scoped to `userId` — no IDOR risk → noted in TC or SEC entry
+- [ ] Input validated with Zod `.safeParse()` → never `.parse()`
+- [ ] Rate limited if user-facing → tested or noted in plan
+
+---
+
 ## UI Quality Checklist — Run Before Finishing Any Component
 
 **Every time you write or edit a component, verify all of these before stopping.**

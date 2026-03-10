@@ -14,6 +14,7 @@ jobs:
 
     env:
       BASE_URL: "http://localhost:3000"
+      PLAYWRIGHT_BASE_URL: "http://localhost:3000"
       DATABASE_URL: ${{ secrets.E2E_DATABASE_URL }}
       BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
       GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
@@ -25,9 +26,8 @@ jobs:
       POLAR_WEBHOOK_SECRET: ${{ secrets.POLAR_WEBHOOK_SECRET }}
       POLAR_ACCESS_TOKEN: ${{ secrets.POLAR_ACCESS_TOKEN }}
       SAASKIT_PRO_PRODUCT_ID: ${{ secrets.SAASKIT_PRO_PRODUCT_ID }}
-      E2E_TEST_SECRET: ${{ secrets.E2E_TEST_SECRET }}
       E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
-      PLAYWRIGHT_BASE_URL: "http://localhost:3000"
+      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -48,21 +48,52 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm e2e:install
+        run: pnpm e2e:install --with-deps
 
       - name: Build app
         run: pnpm build
 
-      - name: Start app and run e2e tests
-        run: |
-          pnpm start &
-          sleep 5
-          pnpm e2e
+      # Wait for the server to be ready before running tests
+      - name: Start app
+        run: pnpm start &
 
-      - name: Upload Playwright report
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for server..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/api/health > /dev/null 2>&1; then
+              echo "Server is ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run E2E tests
+        run: pnpm e2e
+        env:
+          CI: "true"
+
+      - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ github.run_id }}
           path: playwright-report/
-          retention-days: 7
+          retention-days: 14
+
+      - name: Upload test results JSON
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results-${{ github.run_id }}
+          path: playwright-report/results.json
+          retention-days: 14
+
+      # Comment test summary on PR
+      - name: Report test results on PR
+        uses: daun/playwright-report-summary@v3
+        if: always() && github.event_name == 'pull_request'
+        with:
+          report-file: playwright-report/results.json
+          comment-title: "E2E Test Results"
+        continue-on-error: true

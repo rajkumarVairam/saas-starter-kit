@@ -22,7 +22,9 @@
     "e2e": "playwright test",
     "e2e:headed": "playwright test --headed",
     "e2e:report": "playwright show-report",
-    "e2e:install": "playwright install --with-deps"
+    "e2e:install": "playwright install --with-deps",
+    "test:coverage-audit": "tsx scripts/check-test-coverage.ts",
+    "test:coverage-audit:warn": "tsx scripts/check-test-coverage.ts --warn"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.70",
