@@ -57,6 +57,13 @@
       "when": 1773010440079,
       "tag": "0007_sparkling_morph",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1773105705196,
+      "tag": "0008_stormy_big_bertha",
+      "breakpoints": true
     }
   ]
 }

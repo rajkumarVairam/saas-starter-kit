@@ -1,10 +1,14 @@
 import { db } from "@/db";
 import { user as userTable } from "@/db/schema";
 import { oauthError, requireAuth } from "@/lib/oauth";
+import { checkApiRateLimit } from "@/lib/api-rate-limit";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
+  const limited = await checkApiRateLimit(req, "60/min", "v1");
+  if (limited) return limited;
+
   const auth = await requireAuth(req, "profile:read");
   if (auth.error) return auth.error;
 

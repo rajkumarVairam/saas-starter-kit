@@ -4,10 +4,12 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { API_AUTH_PREFIX, DEFAULT_LOGIN_REDIRECT } from "./routes";
 
-// API routes that require authentication (session-based, not Bearer token)
-// Bearer-token routes (/api/v1/*, /api/oauth/*) handle their own auth
+// API routes that require authentication (session-based, not Bearer token).
+// Bearer-token routes (/api/v1/*, /api/oauth/*) handle their own auth inline.
 const PROTECTED_API_ROUTES = [
   "/api/subscription",
+  "/api/generate-theme",
+  "/api/enhance-prompt",
 ];
 
 export async function middleware(request: NextRequest) {
@@ -36,9 +38,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (session) {
-    // Redirect logged-in users from root dashboard to themes settings
-    if (pathname === "/dashboard" || pathname === "/settings") {
-      return NextResponse.redirect(new URL("/settings/themes", request.url));
+    // Redirect /settings root to profile (most logical default)
+    if (pathname === "/settings") {
+      return NextResponse.redirect(new URL("/settings/profile", request.url));
     }
 
     // Admin routes — check email against ADMIN_EMAILS
@@ -49,7 +51,7 @@ export async function middleware(request: NextRequest) {
         .filter(Boolean);
       const userEmail = session.user.email?.toLowerCase() ?? "";
       if (adminEmails.length === 0 || !adminEmails.includes(userEmail)) {
-        return NextResponse.redirect(new URL("/settings/themes", request.url));
+        return NextResponse.redirect(new URL("/dashboard", request.url));
       }
     }
   }
@@ -62,7 +64,10 @@ export const config = {
     "/dashboard",
     "/settings/:path*",
     "/admin/:path*",
+    "/oauth/:path*",
     "/success",
     "/api/subscription",
+    "/api/generate-theme",
+    "/api/enhance-prompt",
   ],
 };

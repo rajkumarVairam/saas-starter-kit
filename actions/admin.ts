@@ -63,6 +63,9 @@ export async function adminGetUsers() {
       name: user.name,
       email: user.email,
       image: user.image,
+      role: user.role,
+      banned: user.banned,
+      banReason: user.banReason,
       createdAt: user.createdAt,
       themeCount: count(theme.id),
     })
@@ -71,6 +74,43 @@ export async function adminGetUsers() {
     .groupBy(user.id)
     .orderBy(desc(user.createdAt));
   return rows;
+}
+
+export async function adminBanUser(userId: string, reason?: string) {
+  await requireAdmin();
+  if (!userId) throw new Error("userId required");
+  await db
+    .update(user)
+    .set({ banned: true, banReason: reason ?? "Banned by admin", updatedAt: new Date() })
+    .where(eq(user.id, userId));
+  db
+    .insert(auditLog)
+    .values({
+      id: crypto.randomUUID(),
+      userId: null,
+      action: "admin.user.banned",
+      metadata: JSON.stringify({ targetUserId: userId, reason }),
+      ipAddress: null,
+      userAgent: null,
+      createdAt: new Date(),
+    })
+    .catch(console.error);
+}
+
+export async function adminUnbanUser(userId: string) {
+  await requireAdmin();
+  if (!userId) throw new Error("userId required");
+  await db
+    .update(user)
+    .set({ banned: false, banReason: null, updatedAt: new Date() })
+    .where(eq(user.id, userId));
+}
+
+export async function adminDeleteUser(userId: string) {
+  await requireAdmin();
+  if (!userId) throw new Error("userId required");
+  // Cascade will handle related rows via FK onDelete: cascade
+  await db.delete(user).where(eq(user.id, userId));
 }
 
 // ─── Audit log ─────────────────────────────────────────────────────────────────

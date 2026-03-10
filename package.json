@@ -18,7 +18,11 @@
     "db:pull": "drizzle-kit pull",
     "db:studio": "drizzle-kit studio",
     "db:check": "drizzle-kit check",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:report": "playwright show-report",
+    "e2e:install": "playwright install --with-deps"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.70",
@@ -49,6 +53,7 @@
     "@tiptap/starter-kit": "^2.11.9",
     "@tiptap/suggestion": "^2.11.9",
     "@upstash/ratelimit": "^2.0.5",
+    "@upstash/redis": "^1.36.4",
     "@vercel/kv": "^3.0.0",
     "@vercel/og": "^0.6.8",
     "ai": "^5.0.28",
@@ -63,6 +68,7 @@
     "drizzle-orm": "^0.42.0",
     "embla-carousel-react": "^8.6.0",
     "idb-keyval": "^6.2.2",
+    "import-in-the-middle": "^3.0.0",
     "input-otp": "^1.4.2",
     "isbot": "^5.1.26",
     "lexical": "^0.31.0",
@@ -103,6 +109,7 @@
     "@eslint/eslintrc": "^3",
     "@next/eslint-plugin-next": "^15.4.10",
     "@ngard/tiny-isequal": "^1.1.0",
+    "@playwright/test": "^1.58.2",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/culori": "^2.1.1",

@@ -6,6 +6,7 @@ import {
   boolean,
   text,
   integer,
+  bigint,
   primaryKey,
   index,
 } from "drizzle-orm/pg-core";
@@ -16,6 +17,11 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull(),
   image: text("image"),
+  phoneNumber: text("phone_number").unique(),
+  phoneNumberVerified: boolean("phone_number_verified"),
+  banned: boolean("banned").default(false),
+  banReason: text("ban_reason"),
+  role: text("role").default("user"), // "user" | "admin"
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });
@@ -242,3 +248,60 @@ export const auditLog = pgTable(
     index("audit_log_created_at_idx").on(table.createdAt),
   ]
 );
+
+// ─── Better Auth plugin tables ────────────────────────────────────────────────
+
+// Rate limiting — id PK is required; using key as PK crashes Better Auth
+export const rateLimit = pgTable("rate_limit", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  key: text("key").unique(),
+  count: integer("count").notNull(),
+  lastRequest: bigint("last_request", { mode: "number" }).notNull(),
+});
+
+// Organization plugin
+export const organization = pgTable("organization", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  logo: text("logo"),
+  createdAt: timestamp("created_at").notNull(),
+  metadata: text("metadata"),
+});
+
+export const member = pgTable("member", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  role: text("role").notNull().default("member"),
+  createdAt: timestamp("created_at").notNull(),
+});
+
+export const invitation = pgTable("invitation", {
+  id: text("id").primaryKey(),
+  organizationId: text("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
+  email: text("email").notNull(),
+  role: text("role"),
+  status: text("status").notNull().default("pending"),
+  expiresAt: timestamp("expires_at").notNull(),
+  inviterId: text("inviter_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+});
+
+// Two-factor authentication plugin
+export const twoFactor = pgTable("two_factor", {
+  id: text("id").primaryKey(),
+  secret: text("secret").notNull(),
+  backupCodes: text("backup_codes").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .unique()
+    .references(() => user.id, { onDelete: "cascade" }),
+});

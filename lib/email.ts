@@ -59,6 +59,67 @@ export async function sendSubscriptionConfirmationEmail(to: string, name: string
   });
 }
 
+export async function sendVerificationEmail(to: string, name: string, url: string) {
+  if (!process.env.RESEND_API_KEY) return;
+  return resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: `Verify your ${siteConfig.name} email`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #111;">Verify your email</h1>
+        <p>Hi ${name}, please verify your email address to complete your ${siteConfig.name} account setup.</p>
+        <p>
+          <a href="${url}" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+            Verify Email
+          </a>
+        </p>
+        <p style="color: #666; font-size: 14px;">This link expires in 24 hours. If you didn't create an account, you can safely ignore this email.</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendMagicLinkEmail(to: string, url: string) {
+  if (!process.env.RESEND_API_KEY) return;
+  return resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: `Your ${siteConfig.name} sign-in link`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #111;">Sign in to ${siteConfig.name}</h1>
+        <p>Click the button below to sign in. This link is valid for 10 minutes and can only be used once.</p>
+        <p>
+          <a href="${url}" style="display: inline-block; background: #111; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+            Sign In
+          </a>
+        </p>
+        <p style="color: #666; font-size: 14px;">If you didn't request this, you can safely ignore this email.</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendOTPEmail(to: string, name: string, otp: string, subject: string) {
+  if (!process.env.RESEND_API_KEY) return;
+  return resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: `${subject} — ${siteConfig.name}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #111;">${subject}</h1>
+        <p>Hi ${name}, your verification code is:</p>
+        <div style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #111; margin: 24px 0; padding: 16px; background: #f5f5f5; border-radius: 8px; text-align: center;">
+          ${otp}
+        </div>
+        <p style="color: #666; font-size: 14px;">This code expires in 10 minutes. Never share it with anyone.</p>
+      </div>
+    `,
+  });
+}
+
 export async function sendSubscriptionCancelledEmail(to: string, name: string, endsAt: Date | null, idempotencyKey?: string) {
   if (!process.env.RESEND_API_KEY) return;
   const endDate = endsAt ? endsAt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "end of current period";

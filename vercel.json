@@ -1,0 +1,15 @@
+{
+  "git": {
+    "deploymentEnabled": false
+  },
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "functions": {
+    "app/api/generate-theme/route.ts": { "maxDuration": 30 },
+    "app/api/enhance-prompt/route.ts": { "maxDuration": 30 },
+    "app/api/webhook/polar/route.ts": { "maxDuration": 10 }
+  }
+}
